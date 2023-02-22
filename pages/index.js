@@ -116,8 +116,9 @@ export default function Home() {
     console.log(arrayOfDays);
     setData(weatherData);
   };
-
+  
   useEffect(() => {
+  
     if(grabWeather.current === true) {
         fetchWeather();
     }
@@ -125,6 +126,7 @@ export default function Home() {
     return () => {
       grabWeather.current = true;
     }
+
   }, []);
 
   const current = new Date();
