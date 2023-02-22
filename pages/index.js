@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link';
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/Home.module.css';
@@ -60,19 +61,19 @@ export default function Home() {
         }
 
         if(weather.weather[0].main == 'Clouds') {
-          icon = '/icons/broken-clouds.png'
+          icon = '/icons/cloudy.svg'
         } else if(weather.weather[0].main == 'Clear'){
-          icon = '/icons/clear-sky.png'
+          icon = '/icons/clear.svg'
         } else if(weather.weather[0].main == 'Atmosphere'){
-          icon = '/icons/mist.png'
+          icon = '/icons/atmosphere.svg'
         } else if(weather.weather[0].main == 'Rain'){
-          icon = '/icons/rain.png'
+          icon = '/icons/rain.svg'
         } else if(weather.weather[0].main == 'Drizzle'){
-          icon = '/icons/shower-rain.png'
+          icon = '/icons/drizzle.svg'
         } else if(weather.weather[0].main == 'Snow'){
-          icon = '/icons/snow.png'
+          icon = '/icons/snow.svg'
         } else if(weather.weather[0].main == 'Thunderstorm'){
-          icon = '/icons/thunderstorm.png'
+          icon = '/icons/thunderstorm.svg'
         } 
 
         var now = new Date(weather.dt_txt);
@@ -80,19 +81,35 @@ export default function Home() {
         var day = days[now.getDate()];
 
         return (
-            <div key={index}>
+          <div style={{display:'flex', justifyContent:'row'}}>
+            <div key={index} className={styles.weatherCard}>
+
+            <div>
               <Image
+              style={{display:'flex', marginTop: 25, marginLeft: 20}}
               src={icon}
               alt={icon}
               width={180}
               height={180}
               priority/>
-            <p>
-              {day} <br/> {month} {weather.dt_txt.substr(8,2)}, {weather.dt_txt.substr(0, 4)}
-            </p>
-            <div>{weather.main.temp.toFixed(1)} °C</div>
-            <div>{weather.weather[0].main}</div>
             </div>
+
+            <div style={{display:'flex', flexDirection:'column',marginTop:50, marginLeft: 30}}>
+                <div style={{fontFamily:'McLaren', fontSize: 15}}>
+                  {day} {month} {weather.dt_txt.substr(8,2)}, {weather.dt_txt.substr(0, 4)}
+                </div>
+
+                <div style={{fontFamily:'McLaren', fontSize: 40, borderRadius:20, width: 150, display:'flex', justifyContent:'center', backgroundColor:'white', marginTop:10, marginBottom:10}}>
+                  {weather.main.temp.toFixed(1)} °C
+                </div>
+
+                <div style={{fontFamily:'McLaren'}}>
+                  {weather.weather[0].main}
+                </div>
+            </div>
+
+            </div>
+          </div>
         );
       }
     })
@@ -114,33 +131,40 @@ export default function Home() {
   const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
 
   return (
-    <>
-      <main>
-        <div>
-            <p>Vancouver,BC Weather: <br/>
-                Last Update: {date}
-            </p>
-        </div>
+      <>
+        
+      <main style={{display:'flex', justifyContent:'center', paddingTop:40, backgroundColor:'#e5d9f2'}}>
 
-        <div>
-            <a>By{''} Megan</a>
-        </div>
+          <div style={{display:'flex', flexDirection:'column'}}>
 
-        <div>
-            <Image
-            className={styles.logo}
-            src="/../public/weather-forecast-logo.png"
-            alt="Logo"
-            width={300}
-            height={100}
-            />
-        </div>
+            <div style={{fontFamily:'McLaren', fontSize: 30, fontWeight:'bold', color:'#7371fc'}}>
+              Vancouver, BC Weather: 
+            </div>
+
+            <div style={{fontFamily:'McLaren', fontSize: 20, color:'#a594f9'}}>
+              Last Update: {date}
+            </div> 
+
+            <div style={{marginTop: 30}}>
+              <Image
+              src='/icons/logo.svg'
+              width={200}
+              height={200}/>
+            </div>
+
+            <div className={styles.byMe}>
+              <Link href="https://megansyukur.ca">By Megan Syukur</Link>
+            </div>
+            
+          </div>
 
         <div className={styles.grid}>
           {data}
         </div>
 
       </main>
-    </>
+      </>
+
+  
   )
-}
+  }
